@@ -43,7 +43,12 @@ by editing this file (no more that a few lines)
 
 #### Answer
 
-_write your answer here_
+lockguard is an object when created it automatically locks the mutex and when destroyed, it automatically unlocks it.
+It is used to avoid human error such as forgetting to unlock after locking.
+In this example we see that the 4 threads created need to be synchronized so that the give the right result that should be zero and due to this lack of synchronization,
+they are interleaved and interfere with each others' work and cause data corruption.
+Thus, in this example adding:"std::lock_guard<std::mutex> g(m);" before the incrementing and decrementing is just like m.lock() before inc or dec and then m.unlock()
+Doing so we synchronize the incrementing and decrementing process and avoid data corruption. 
 
 ## Part 2
 
@@ -52,7 +57,13 @@ _write your answer here_
 What is the difference between ``` std::mutex ``` and ``` std::shared_mutex ```?
 Write your answer below
 #### Answer
-_write your answer here_
+
+"Shared mutexes are usually used in situations when multiple readers can access the same resource at the same time without causing data races,
+but only one writer can do so. A shared mutex has two levels of access 'shared' and 'exclusive'.
+Multiple threads can acquire shared access but only one can hold 'exclusive' access (that includes there being no shared access).
+while if we use mutex in such a case then we end up having only one reader can read or only one writer can write.
+Another way to solve it using mutex only is like done in class,
+we need to add a counter as a variable and protect it using another sephamore and then use another sephamore to allow the writer to reserve its place in case several readers dont finish and it arrives in between them(to avoid starvation of writing process).
 
 ### Implementation
 
@@ -68,7 +79,9 @@ Describe condition variables in C++ and how they used (a few lines)
 
 #### Answer
 
-_write your answer here_
+A conditional variable in two thread can enforce certain parts of the two threads to be executed in a pre defined order.
+We make sure that threads are running in a fixed order for a certain protion of their code.
+We have to use unique_lock for condition variable we cannot use lockguard because we have to lock and unlock several times 
 
 ### Implementation 
 
