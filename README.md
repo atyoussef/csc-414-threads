@@ -64,7 +64,7 @@ Multiple threads can acquire shared access but only one can hold 'exclusive' acc
 while if we use mutex in such a case then we end up having only one reader can read or only one writer can write.
 Another way to solve it using mutex only is like done in class,
 we need to add a counter as a variable and protect it using another sephamore and then use another sephamore to allow the writer to reserve its place in case several readers dont finish and it arrives in between them(to avoid starvation of writing process).
-
+In implementation I used m.lock() and .unlock() for exclusive access for writers and m.lock_shared() and .unlock_shared() for shared access for readers to allow multiple readers and no writers 
 ### Implementation
 
 Implement the readers writers solution we discussed in class. Use **readersWriters.cpp** 

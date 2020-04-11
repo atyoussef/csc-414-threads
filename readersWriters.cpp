@@ -15,7 +15,9 @@ std::vector<int> v;             //in common a vector of integers
 #define DATA_SIZE 100
 #define NUM_TRIALS 10
 
-/* Readers writer setup. The common data is the 
+std::shared_mutex wrt;              //initialize shared mutex
+
+                                    /* Readers writer setup. The common data is the 
  * vector of integers v. The writers write a random
  * value from 1 to 9 and the next its negative such
  * that the total sum is 0. for example
@@ -32,10 +34,14 @@ public:
     static int num;
     void operator() () {
         int sum = 0;
+        wrt.lock_shared();                 //locking before starting to read  but many readers can read its the shared mutex (not exclusive ) multiple readers no writers
         for (auto x : v) {
+            
             sum += x;
+            
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
         }           // sums it up and should give zero
+        wrt.unlock_shared();               //unlocking shared mutex after reading
         if(sum!=0) std::cout<< "sum is " << sum << std::endl; // if not zero he writes the sum so fi error 
     }
 };
@@ -47,12 +53,14 @@ public:
    }
     void operator() () {
         int value = dist(e);
-
+        wrt.lock();             //locking before starting to write
         for (auto& x : v) {
             x = value;
             value = -value;
+           
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
         }
+        wrt.unlock();           //unlocking after finishing writing;
     }
 };
 
