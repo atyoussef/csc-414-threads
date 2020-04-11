@@ -45,39 +45,38 @@ public:
     }
 };
 
-int main()
-{
-    int a, b;
-    std::default_random_engine e;
-    std::uniform_int_distribution<int> id(100000, 1000000); //used to generate big numbers
-    a = id(e);
-    b = id(e);
-    for (int j = 0; j <num_trials; j++) { // to do n trails
-        std::vector<std::thread > mythreads;// store threads in the vector (contains t1 t2 and the other 2)
-        int x = 0;
-        y = 0;
-        funcObject c(x, a, b,INC);
-        std::thread t1(c);      //created thread t1 running funcObject to increment
-        std::thread t2(doit, a, b,INC);      //created thread t2 running doit to increment
-        /* below will not work because a
-           vector will attempt to make a copy
-           of t1 and t2 and the copy constructor
-           for the thread class is deleted
-        mythreads.push_back(t1);
-        mythreads.push_back(t2);
-        */
-        mythreads.push_back(std::move(t1));
-        mythreads.push_back(std::move(t2));
-        mythreads.push_back(
-            std::thread(funcObject(x,a,b,DEC)));  //created thread with no name running funcObject to decrement x
-        mythreads.push_back(
-           std::thread(doit, a, b,DEC));    //created thread with no name running funcObject to decrement y
-        
-        for (auto& t : mythreads)
-            t.join();
-        
-        std::cout << "trial " << j << ",x=" << x << ",y=" <<y << std::endl;
-
-    }
-
-}
+//int main(){
+//    int a, b;
+//    std::default_random_engine e;
+//    std::uniform_int_distribution<int> id(100000, 1000000); //used to generate big numbers
+//    a = id(e);
+//    b = id(e);
+//    for (int j = 0; j <num_trials; j++) { // to do n trails
+//        std::vector<std::thread > mythreads;// store threads in the vector (contains t1 t2 and the other 2)
+//        int x = 0;
+//        y = 0;
+//        funcObject c(x, a, b,INC);
+//        std::thread t1(c);      //created thread t1 running funcObject to increment
+//        std::thread t2(doit, a, b,INC);      //created thread t2 running doit to increment
+//        /* below will not work because a
+//           vector will attempt to make a copy
+//           of t1 and t2 and the copy constructor
+//           for the thread class is deleted
+//        mythreads.push_back(t1);
+//        mythreads.push_back(t2);
+//        */
+//        mythreads.push_back(std::move(t1));
+//        mythreads.push_back(std::move(t2));
+//        mythreads.push_back(
+//            std::thread(funcObject(x,a,b,DEC)));  //created thread with no name running funcObject to decrement x
+//        mythreads.push_back(
+//           std::thread(doit, a, b,DEC));    //created thread with no name running funcObject to decrement y
+//        
+//        for (auto& t : mythreads)
+//            t.join();
+//        
+//        std::cout << "trial " << j << ",x=" << x << ",y=" <<y << std::endl;
+//
+//    }
+//
+//}
