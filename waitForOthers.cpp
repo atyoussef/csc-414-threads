@@ -18,16 +18,16 @@ void thread(std::string s) {// is a function called thread mish an actual thread
      std::cout << s << " is done" << std::endl;
 
 }
-int main()
-{
-   
-    std::vector<std::thread> mythreads;
-    for (int i = 0; i < num_threads; i++) {         //create a number of threads to execute the function thread
-        mythreads.push_back(std::thread(thread, std::to_string(i)));
-    }
-    for (auto& t : mythreads)
-        t.join();
-  
-}
+//int main()
+//{
+//   
+//    std::vector<std::thread> mythreads;
+//    for (int i = 0; i < num_threads; i++) {         //create a number of threads to execute the function thread
+//        mythreads.push_back(std::thread(thread, std::to_string(i)));
+//    }
+//    for (auto& t : mythreads)
+//        t.join();
+//  
+//}
 
 //we should synchronize so they wait for each other only can be done after all finish phase 1 

@@ -11,7 +11,7 @@
 
 std::random_device e;
 std::uniform_int_distribution<> dist(1,9);
-std::vector<int> v;
+std::vector<int> v;             //in common a vector of integers
 #define DATA_SIZE 100
 #define NUM_TRIALS 10
 
@@ -35,8 +35,8 @@ public:
         for (auto x : v) {
             sum += x;
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
-        }
-        if(sum!=0) std::cout<< "sum is " << sum << std::endl;
+        }           // sums it up and should give zero
+        if(sum!=0) std::cout<< "sum is " << sum << std::endl; // if not zero he writes the sum so fi error 
     }
 };
 
@@ -56,30 +56,30 @@ public:
     }
 };
 
-//int main()
-//{
-//    int value = 1;
-//    for (int i = 0; i < DATA_SIZE; i++) {
-//        v.push_back(value);
-//        value = -value;
-//    }
-//    for (int i = 0; i < NUM_TRIALS; i++) {
-//        std::cout << "Trial " << i << std::endl;
-//        std::vector<std::thread> mythreads;
-//        for(int i=0;i<5;i++){
-//            Reader r1, r2;
-//            Writer w;
-//            std::thread t1(r1);
-//            std::thread t2(w);
-//            std::thread t3(r2);
-//            mythreads.push_back(std::move(t1));
-//            mythreads.push_back(std::move(t2));
-//            mythreads.push_back(std::move(t3));
-//        }
-//       for (auto& t : mythreads)
-//            t.join();
-//        std::cout << "----------------" << std::endl;
-//    }
-//    
-//   
-//}
+int main()
+{
+    int value = 1;
+    for (int i = 0; i < DATA_SIZE; i++) { //initialize the vector such that sum of all elements is zero
+        v.push_back(value);
+        value = -value;
+    }
+    for (int i = 0; i < NUM_TRIALS; i++) { //number of trials to detect mistakes
+        std::cout << "Trial " << i << std::endl;
+        std::vector<std::thread> mythreads;       //vector containing all threads
+        for(int i=0;i<5;i++){
+            Reader r1, r2;
+            Writer w;
+            std::thread t1(r1);
+            std::thread t2(w);
+            std::thread t3(r2);
+            mythreads.push_back(std::move(t1));
+            mythreads.push_back(std::move(t2));
+            mythreads.push_back(std::move(t3));
+        }
+       for (auto& t : mythreads)
+            t.join();
+        std::cout << "----------------" << std::endl;
+    }
+    
+   
+}
