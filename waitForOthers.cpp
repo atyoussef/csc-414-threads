@@ -18,14 +18,14 @@ void thread(std::string s) {
      std::cout << s << " is done" << std::endl;
 
 }
-int main()
-{
-   
-    std::vector<std::thread> mythreads;
-    for (int i = 0; i < num_threads; i++) {
-        mythreads.push_back(std::thread(thread, std::to_string(i)));
-    }
-    for (auto& t : mythreads)
-        t.join();
-  
-}
+//int main()
+//{
+//   
+//    std::vector<std::thread> mythreads;
+//    for (int i = 0; i < num_threads; i++) {
+//        mythreads.push_back(std::thread(thread, std::to_string(i)));
+//    }
+//    for (auto& t : mythreads)
+//        t.join();
+//  
+//}

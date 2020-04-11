@@ -1,0 +1,2 @@
+C:\Users\anthony\Desktop\csc-414-threads\Debug\AnthonyYoussef.exe
+C:\Users\anthony\Desktop\csc-414-threads\Debug\AnthonyYoussef.pdb
