@@ -2,20 +2,20 @@
 
 #include <iostream>
 #include <thread>
-#include <mutex>
+#include <mutex>                                //include mutex
 #include <random>
 
 //uncomment line below to get correct result
-//#define SYNC
-int y = 0;
+#define SYNC
+int y = 0;                                   //Global variable
 int num_iterations = 100000;
 int num_trials=10;
-std::mutex m;
+std::mutex m;                               //define mutex m
 #define INC 1
 #define DEC -1
 int gcd(int a,int b) {
     if (b == 0) return a;
-    return gcd(b, a % b);
+    return gcd(b, a % b);                //function doit find gcd 
 }
 void doit(int a, int b,int op) {
     for (int i = 0; i < num_iterations; i++) {
@@ -23,7 +23,7 @@ void doit(int a, int b,int op) {
 #ifdef SYNC
         std::lock_guard<std::mutex> g(m);
 #endif      
-        op>=0?y++:y--;
+        op>=0?y++:y--;      //depending on result it increment or dec y
 
     }
 }
@@ -31,7 +31,7 @@ class funcObject {
     int& _x;
     int _a, _b, _op;
 public:
-    funcObject(int& x, int a, int b,int op) 
+    funcObject(int& x, int a, int b,int op)          //function object find gcd
         :_x(x), _a(a), _b(b),_op(op) {}
     void operator() () {
         for (int i = 0; i <num_iterations; i++) {
@@ -39,7 +39,7 @@ public:
 #ifdef SYNC
             std::lock_guard<std::mutex> g(m);
 #endif    
-           _op>=0?_x++:_x--;
+           _op>=0?_x++:_x--;            //depending on result it increment or dec x
         }
 
     }
@@ -49,16 +49,16 @@ int main()
 {
     int a, b;
     std::default_random_engine e;
-    std::uniform_int_distribution<int> id(100000, 1000000);
+    std::uniform_int_distribution<int> id(100000, 1000000); //used to generate big numbers
     a = id(e);
     b = id(e);
-    for (int j = 0; j <num_trials; j++) {
-        std::vector<std::thread > mythreads;
+    for (int j = 0; j <num_trials; j++) { // to do n trails
+        std::vector<std::thread > mythreads;// store threads in the vector (contains t1 t2 and the other 2)
         int x = 0;
         y = 0;
         funcObject c(x, a, b,INC);
-        std::thread t1(c);
-        std::thread t2(doit, a, b,INC);
+        std::thread t1(c);      //created thread t1 running funcObject to increment
+        std::thread t2(doit, a, b,INC);      //created thread t2 running doit to increment
         /* below will not work because a
            vector will attempt to make a copy
            of t1 and t2 and the copy constructor
@@ -69,9 +69,9 @@ int main()
         mythreads.push_back(std::move(t1));
         mythreads.push_back(std::move(t2));
         mythreads.push_back(
-            std::thread(funcObject(x,a,b,DEC)));
+            std::thread(funcObject(x,a,b,DEC)));  //created thread with no name running funcObject to decrement x
         mythreads.push_back(
-           std::thread(doit, a, b,DEC));
+           std::thread(doit, a, b,DEC));    //created thread with no name running funcObject to decrement y
         
         for (auto& t : mythreads)
             t.join();
