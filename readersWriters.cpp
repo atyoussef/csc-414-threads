@@ -64,30 +64,30 @@ public:
     }
 };
 
-int main()
-{
-    int value = 1;
-    for (int i = 0; i < DATA_SIZE; i++) { //initialize the vector such that sum of all elements is zero
-        v.push_back(value);
-        value = -value;
-    }
-    for (int i = 0; i < NUM_TRIALS; i++) { //number of trials to detect mistakes
-        std::cout << "Trial " << i << std::endl;
-        std::vector<std::thread> mythreads;       //vector containing all threads
-        for(int i=0;i<5;i++){
-            Reader r1, r2;
-            Writer w;
-            std::thread t1(r1);
-            std::thread t2(w);
-            std::thread t3(r2);
-            mythreads.push_back(std::move(t1));
-            mythreads.push_back(std::move(t2));
-            mythreads.push_back(std::move(t3));
-        }
-       for (auto& t : mythreads)
-            t.join();
-        std::cout << "----------------" << std::endl;
-    }
-    
-   
-}
+//int main()
+//{
+//    int value = 1;
+//    for (int i = 0; i < DATA_SIZE; i++) { //initialize the vector such that sum of all elements is zero
+//        v.push_back(value);
+//        value = -value;
+//    }
+//    for (int i = 0; i < NUM_TRIALS; i++) { //number of trials to detect mistakes
+//        std::cout << "Trial " << i << std::endl;
+//        std::vector<std::thread> mythreads;       //vector containing all threads
+//        for(int i=0;i<5;i++){
+//            Reader r1, r2;
+//            Writer w;
+//            std::thread t1(r1);
+//            std::thread t2(w);
+//            std::thread t3(r2);
+//            mythreads.push_back(std::move(t1));
+//            mythreads.push_back(std::move(t2));
+//            mythreads.push_back(std::move(t3));
+//        }
+//       for (auto& t : mythreads)
+//            t.join();
+//        std::cout << "----------------" << std::endl;
+//    }
+//    
+//   
+//}
