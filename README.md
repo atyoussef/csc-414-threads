@@ -58,7 +58,8 @@ What is the difference between ``` std::mutex ``` and ``` std::shared_mutex ```?
 Write your answer below
 #### Answer
 
-"Shared mutexes are usually used in situations when multiple readers can access the same resource at the same time without causing data races,
+Standard mutex deals with multithreads that have access to common data but ensures that only on thread at a time can access this common data. 
+Shared mutexes are usually used in situations when multiple readers can access the same resource at the same time without causing data races,
 but only one writer can do so. A shared mutex has two levels of access 'shared' and 'exclusive'.
 Multiple threads can acquire shared access but only one can hold 'exclusive' access (that includes there being no shared access).
 while if we use mutex in such a case then we end up having only one reader can read or only one writer can write.
@@ -81,7 +82,8 @@ Describe condition variables in C++ and how they used (a few lines)
 
 A conditional variable in two thread can enforce certain parts of the two threads to be executed in a pre defined order.
 We make sure that threads are running in a fixed order for a certain protion of their code.
-We have to use unique_lock for condition variable we cannot use lockguard because we have to lock and unlock several times 
+We have to use unique_lock for condition variable we cannot use lockguard because we have to lock and unlock several times.
+The key idea of a conditional variable is to make it possible for a thread to go to sleep inside its critical section,by automatically releasing the lock at the same time it is going to sleep.
 
 ### Implementation 
 

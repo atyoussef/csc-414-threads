@@ -11,7 +11,7 @@ std::uniform_int_distribution<> id(1,2000);
 std::mutex mutex;
 std::condition_variable convar;
 int var = 0;
-
+bool ready = false;
 
 void thread(std::string s) {// is a function called thread mish an actual thread
           
@@ -21,9 +21,10 @@ void thread(std::string s) {// is a function called thread mish an actual thread
     var ++;
     if (var == num_threads)
     {
+        ready = true;
         convar.notify_all();
     }
-        convar.wait(lock);
+    while (!ready) convar.wait(lock);
     std::this_thread::sleep_for(std::chrono::milliseconds(id(e)));//then sleeps again then prints is done 
     std::cout << s << " is done" << std::endl;
      }
